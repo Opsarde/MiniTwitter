@@ -26,7 +26,9 @@ public class OpenViewFrame extends JFrame {
         subPanel2.add(scrollPane2);
         
         mainPanel.add(subPanel1);
-        mainPanel.add(scrollPane2);
+        mainPanel.add(subPanel1);
+        //TODO
+        //make the textPanel not writable
         
         add(mainPanel);
 
