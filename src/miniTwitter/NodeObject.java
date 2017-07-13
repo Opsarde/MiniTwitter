@@ -10,5 +10,6 @@ public interface NodeObject {
     public List<NodeObject> getChildren();
     public void addNodeObject(NodeObject o);
     public void addMessage(Message message);
+    public User findUser(String s);
     public String toString();
 }

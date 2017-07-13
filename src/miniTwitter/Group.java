@@ -48,6 +48,13 @@ public class Group implements NodeObject {
     
     @Override
     public void addNodeObject(NodeObject o) {
+        if (o instanceof User) {
+            for (NodeObject user : objects) {
+                if (user.getID().equals(o.getID())) {
+                    return;
+                }
+            }
+        }
         objects.add(o);
     }
 
@@ -56,6 +63,14 @@ public class Group implements NodeObject {
     
     @Override
     public String toString() {
-        return groupID;
+        return "Group: " + groupID;
+    }
+    @Override
+    public User findUser(String s) {
+        //doesn't work
+        for (NodeObject object: objects) {
+            object.findUser(s);
+        }
+        return null;
     } 
 }

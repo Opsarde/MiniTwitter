@@ -2,6 +2,7 @@ package miniTwitter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 
 /**
  * Class: User
@@ -11,7 +12,7 @@ import java.util.List;
  * 
  * @author shun
  */
-public class User implements NodeObject {
+public class User extends Observable implements NodeObject {
     private String userID;
     private List<User> followers;
     private List<User> followingUsers;
@@ -41,9 +42,24 @@ public class User implements NodeObject {
 
     @Override
     public void addMessage(Message message) {}
+
+    @Override
+    public User findUser(String s) {
+        if (s.equals(this.userID))
+            return this;
+        return null;
+    }
+    
+    public void addFollower(User follower) {
+        followers.add(follower);
+    }
+    
+    public void addFollowingUser(User followingUser) {
+        followingUsers.add(followingUser);
+    }
     
     @Override
     public String toString() {
-        return userID;
+        return "User: " + userID;
     }
 }

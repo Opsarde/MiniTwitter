@@ -18,20 +18,22 @@ import javax.swing.tree.TreeNode;
 /**
  * Left side panel contains
  * User and Group tree.
- * (Note that it uses observer pattern)
- * (when a user or a group added)
+ * (when a user or a group added,
+ * it also adds to Group root?)
  * 
  * @author shun
  */
 public class TreePanel extends JPanel {
     
-    //private DefaultMutableTreeNode root;
+    private Group root;
+    private NodeObject component;
     private JTree tree;
     private NodeObject selectedNode;
     private DefaultMutableTreeNode selectedNodeGroup;
     
     public TreePanel() {
         super();
+        
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 //        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Group("Root"));
 //        //add the root child into roottest?
@@ -41,19 +43,28 @@ public class TreePanel extends JPanel {
 //        root.add(new DefaultMutableTreeNode(""));
 //        root.add(new DefaultMutableTreeNode(""));
         DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Group("Root"));
+        selectedNodeGroup = root;
         
         // some hard-coded nodes
         // they are not stored
-        DefaultMutableTreeNode john = new DefaultMutableTreeNode(new User("John"));
-        DefaultMutableTreeNode bob = new DefaultMutableTreeNode(new User("Bob")); 
-        DefaultMutableTreeNode steve = new DefaultMutableTreeNode(new User("Steve")); 
-        DefaultMutableTreeNode cs356 = new DefaultMutableTreeNode(new Group("CS356")); 
-        root.add(john);
-        cs356.add(steve);
-        root.add(cs356);
-        root.add(bob);
-        
+//        DefaultMutableTreeNode john = new DefaultMutableTreeNode(new User("John"));
+//        DefaultMutableTreeNode bob = new DefaultMutableTreeNode(new User("Bob")); 
+//        DefaultMutableTreeNode steve = new DefaultMutableTreeNode(new User("Steve")); 
+//        DefaultMutableTreeNode cs356 = new DefaultMutableTreeNode(new Group("CS356")); 
+//        root.add(john);
+//        cs356.add(steve);
+//        root.add(cs356);
+//        root.add(bob);
+
+
         tree = new JTree(root);
+        
+        //hardcode simplified
+        add(new User("John"));
+        add(new User("Bob"));
+        add(new User("Steve"));
+        add(new Group("CS356"));
+        
         tree.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent e) {
@@ -95,17 +106,30 @@ public class TreePanel extends JPanel {
         }
     }
     
+    // Is there a way I can add new node to a specific group
     public void add(NodeObject o) {
         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(o);
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
         //DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-        // TODO: Now it only adds to end of the root
-        if (selectedNodeGroup != null) {
+
+        
+        if (!isExisted(o)) {
             selectedNodeGroup.add(newNode);
             model.nodesWereInserted(selectedNodeGroup, new int[] {selectedNodeGroup.getChildCount() - 1});
         }
     }
-    
+
+    private boolean isExisted(NodeObject o) {
+        Object[] path = selectedNodeGroup.getLastLeaf().getUserObjectPath();
+        for (Object object: path) {
+            NodeObject temp = (NodeObject) object;
+            if ((temp.getID().equals(o.getID()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public DefaultMutableTreeNode getRoot() {
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
         return root;

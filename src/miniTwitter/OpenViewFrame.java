@@ -1,6 +1,8 @@
 package miniTwitter;
 
 import java.awt.GridLayout;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -8,7 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
-public class OpenViewFrame extends JFrame {
+public class OpenViewFrame extends JFrame implements Observer {
     
     public OpenViewFrame(String name) {
         super(name);
@@ -41,6 +43,12 @@ public class OpenViewFrame extends JFrame {
         pack();
         setLocationRelativeTo(getRootPane());
         setVisible(true);
+    }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
