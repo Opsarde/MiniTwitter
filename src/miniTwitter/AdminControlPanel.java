@@ -1,10 +1,15 @@
 package miniTwitter;
 
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  * Class: AdminControlPanel
@@ -14,11 +19,10 @@ import javax.swing.*;
  * @author shun
  */
 public class AdminControlPanel extends JPanel {
-    private JPanel treePanel;
-    private JTextField userID, groupID;
-    private JButton addUser, addGroup;
+    private TreePanel treePanel;
+    private TextButtonPanel userPanel, groupPanel;
     private JButton openView;
-    private JButton utility;
+    private FourButtonPanel utility;
     private JPanel rightPanel;
 //    private TextButtonPanel userIDPanel;
 //    private TextButtonPanel groupIDPanel;
@@ -31,29 +35,71 @@ public class AdminControlPanel extends JPanel {
         add(treePanel);
         rightPanel = new JPanel(new GridLayout(3, 1));
         JPanel textButtonArea = new JPanel(new GridLayout(2, 1));
-        textButtonArea.add(new TextButtonPanel("Add User"));
-        textButtonArea.add(new TextButtonPanel("Add Group"));
+        
+        // add user row
+        userPanel = new TextButtonPanel("Add User");
+        //When clicking add user button:
+        userPanel.getButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //add user to the tree and to root group
+                String name = userPanel.getField().getText();
+                if (!name.isEmpty())
+                    addToTree(new User(name));
+            }
+        });
+        textButtonArea.add(userPanel);
+        
+        // add group row
+        groupPanel = new TextButtonPanel("Add Group");
+        groupPanel.getButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String name = groupPanel.getField().getText();
+                if (!name.isEmpty())
+                    addToTree(new Group(name));
+            }
+        });
+        textButtonArea.add(groupPanel);
         rightPanel.add(textButtonArea);
-        rightPanel.add(new JButton("Open User View"));
-        rightPanel.add(new FourButtonPanel(new GridLayout(2, 2)));
+
+        // open view button
+        openView = new JButton("Open User View");
+        openView.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                OpenViewFrame newWindow = new OpenViewFrame(treePanel.getSelectedObject().getID());
+            }
+        });
+        rightPanel.add(openView);
+        
+        // four utility button
+        utility = new FourButtonPanel(new GridLayout(2, 2));
+        rightPanel.add(utility);
 
         add(rightPanel);
-        //addButtonPanel();
-//        buttonPanels.add(new ButtonPanel(new GridLayout(2, 2)));
-//        buttonPanels.get(0).addButton(new JButton("User ID"));
-//        buttonPanels.get(0).addButton(new JButton("Add User"));
-//        buttonPanels.get(0).addButton(new JButton("Group ID"));
-//        buttonPanels.get(0).addButton(new JButton("Add Group"));
-//        buttonPanels.add(new ButtonPanel(new GridLayout(0, 1)));
-//        buttonPanels.get(1).addButton(new JButton("Open User View"));
-//        buttonPanels.add(new ButtonPanel(new GridLayout(2, 2)));
-//        buttonPanels.get(2).addButton(new JButton("Show User Total"));
-//        buttonPanels.get(2).addButton(new JButton("Show Group Total"));
-//        buttonPanels.get(2).addButton(new JButton("Show Messages Total"));
-//        buttonPanels.get(2).addButton(new JButton("Show Positive Percentage"));
-//        for (ButtonPanel bp : buttonPanels) {
-//            rightPanel.add(bp);
-//        }
+    }
 
+    private void addToTree(NodeObject o) {
+        DefaultTreeModel model = treePanel.getModel();
+        DefaultMutableTreeNode root = treePanel.getRoot();
+        root.add(new DefaultMutableTreeNode(o));
+        model.nodesWereInserted(treePanel.getRoot(), new int[] {root.getChildCount() - 1});
+    }
+    
+    public TextButtonPanel getUserPanel() {
+        return userPanel;
+    }
+
+    public void setUserPanel(TextButtonPanel userPanel) {
+        this.userPanel = userPanel;
+    }
+
+    public TextButtonPanel getGroupPanel() {
+        return groupPanel;
+    }
+
+    public void setGroupPanel(TextButtonPanel groupPanel) {
+        this.groupPanel = groupPanel;
     }
 }

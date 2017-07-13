@@ -21,5 +21,19 @@ public class TextButtonPanel extends JPanel {
     public void setTextArea(int column) {
         this.field.setColumns(column);
     }
-}
+    public JTextField getField() {
+        return field;
+    }
 
+    public void setField(JTextField field) {
+        this.field = field;
+    }
+
+    public JButton getButton() {
+        return button;
+    }
+
+    public void setButton(JButton button) {
+        this.button = button;
+    }
+}
