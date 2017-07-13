@@ -28,6 +28,7 @@ public class TreePanel extends JPanel {
     //private DefaultMutableTreeNode root;
     private JTree tree;
     private NodeObject selectedNode;
+    private DefaultMutableTreeNode selectedNodeGroup;
     
     public TreePanel() {
         super();
@@ -63,6 +64,11 @@ public class TreePanel extends JPanel {
                 if (node == null) return;
                 
                 selectedNode = (NodeObject) node.getUserObject();
+                // Also needs a parent
+                if (node.getUserObject() instanceof User)
+                    selectedNodeGroup = (DefaultMutableTreeNode) node.getParent();
+                else
+                    selectedNodeGroup = node;
             }
         });
 
@@ -89,11 +95,15 @@ public class TreePanel extends JPanel {
         }
     }
     
-    public void add(NodeObject o, NodeObject selectedObject) {
+    public void add(NodeObject o) {
         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(o);
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
+        DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+        //DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
         // TODO: Now it only adds to end of the root
-        root.add(new DefaultMutableTreeNode(o));
+        if (selectedNodeGroup != null) {
+            selectedNodeGroup.add(newNode);
+            model.nodesWereInserted(selectedNodeGroup, new int[] {selectedNodeGroup.getChildCount() - 1});
+        }
     }
     
     public DefaultMutableTreeNode getRoot() {

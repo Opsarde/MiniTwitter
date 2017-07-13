@@ -45,7 +45,8 @@ public class AdminControlPanel extends JPanel {
                 //add user to the tree and to root group
                 String name = userPanel.getField().getText();
                 if (!name.isEmpty())
-                    addToTree(new User(name));
+                    //addToTree(new User(name));
+                    treePanel.add(new User(name));
             }
         });
         textButtonArea.add(userPanel);
@@ -57,7 +58,8 @@ public class AdminControlPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 String name = groupPanel.getField().getText();
                 if (!name.isEmpty())
-                    addToTree(new Group(name));
+                    //addToTree(new Group(name));
+                    treePanel.add(new Group(name));
             }
         });
         textButtonArea.add(groupPanel);
@@ -84,13 +86,6 @@ public class AdminControlPanel extends JPanel {
         add(rightPanel);
     }
 
-    private void addToTree(NodeObject o) {
-        DefaultTreeModel model = treePanel.getModel();
-        DefaultMutableTreeNode root = treePanel.getRoot();
-        root.add(new DefaultMutableTreeNode(o));
-        model.nodesWereInserted(treePanel.getRoot(), new int[] {root.getChildCount() - 1});
-    }
-    
     public TextButtonPanel getUserPanel() {
         return userPanel;
     }
