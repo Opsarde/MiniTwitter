@@ -2,9 +2,8 @@ package miniTwitter;
 
 import java.util.List;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
-
+// Component interface
+// 
 public interface NodeObject {
     public String getID();
     public List<Message> getMessages();

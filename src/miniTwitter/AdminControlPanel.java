@@ -61,6 +61,7 @@ public class AdminControlPanel extends JPanel {
             }
         });
         textButtonArea.add(groupPanel);
+
         rightPanel.add(textButtonArea);
 
         // open view button
@@ -68,7 +69,10 @@ public class AdminControlPanel extends JPanel {
         openView.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OpenViewFrame newWindow = new OpenViewFrame(treePanel.getSelectedObject().getID());
+                NodeObject selected = treePanel.getSelectedObject();
+                if (selected != null) {
+                    OpenViewFrame newWindow = new OpenViewFrame(selected.getID());
+                }
             }
         });
         rightPanel.add(openView);
