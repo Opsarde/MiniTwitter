@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -29,6 +30,7 @@ public class Group implements NodeObject {
         this.groupID = groupID;
         objects = new ArrayList<>();
     }
+
     @Override
     public String getID() {
         return groupID;
@@ -116,4 +118,10 @@ public class Group implements NodeObject {
         }
         return node;
     }
+
+    @Override
+    public Set<User> getFollowers() {return null;}
+
+    @Override
+    public Set<User> getFollowingUsers() {return null;}
 }

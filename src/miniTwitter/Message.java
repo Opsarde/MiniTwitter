@@ -7,7 +7,19 @@ package miniTwitter;
  * 
  * @author shun
  */
-public class Message {
-    private String words;
+public abstract class Message {
+    protected String words;
+    
+    public String toString() {
+        return words;
+    }
+
+    public String getWords() {
+        return words;
+    }
+
+    public void setWords(String words) {
+        this.words = words;
+    };
 
 }

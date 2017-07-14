@@ -1,8 +1,10 @@
 package miniTwitter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Observable;
+import java.util.Set;
 
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -17,14 +19,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
  */
 public class User extends Observable implements NodeObject {
     private String userID;
-    private List<User> followers;
-    private List<User> followingUsers;
+    private Set<User> followers;
+    private Set<User> followingUsers;
     private List<Message> messages;
 
     public User(String userID) {
         this.userID = userID;
-        followers = new ArrayList<>();
-        followingUsers = new ArrayList<>();
+        followers = new HashSet<>();
+        followingUsers = new HashSet<>();
         messages = new ArrayList<>();
     }
     @Override
@@ -65,9 +67,19 @@ public class User extends Observable implements NodeObject {
 
     @Override
     public List<User> getAllUsers() {return null;}
-    @Override
 
+    @Override
     public JTree getTreeView() {
         return new JTree(new DefaultMutableTreeNode(this));
+    }
+
+    @Override
+    public Set<User> getFollowers() {
+        return followers;
+    }
+
+    @Override
+    public Set<User> getFollowingUsers() {
+        return followingUsers;
     }
 }
