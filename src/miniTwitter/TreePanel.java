@@ -30,8 +30,9 @@ public class TreePanel extends JPanel {
     
     private NodeObject root;
     // A list that holds used ID for comparing new ID
-    // (Question: Should it be a property in Group class?)
-    private List<String> usedIDs;
+    // Since I created a static List in NodeObject interface,
+    // it shouldn't be needed. 
+    // private List<String> usedIDs;
     private JTree tree;
     private DefaultMutableTreeNode selectedNode;
     private DefaultMutableTreeNode selectedNodeGroup;
@@ -41,15 +42,13 @@ public class TreePanel extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         //Create a default NodeObject root
-        //Also add it to a TreeNode for display and to usedID
+        //It will automatically create a DefaultMutableTreeNode
+        //as a reference
         root = new Group("Root");
-        //DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(root);
-        usedIDs = new ArrayList<>();
-        usedIDs.add("Root");
         selectedNodeGroup = root.getNode();
         tree = new JTree(root.getNode());
 
-        //hardcode simplified
+        //hardcode existing user and group simplified
         add(new User("John"));
         add(new User("Bob"));
         add(new User("Steve"));
@@ -87,29 +86,16 @@ public class TreePanel extends JPanel {
     
     //Add Object to the tree and to the NodeObject root
     public void add(NodeObject o) {
-        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(o);
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
         
         //DEBUGGING MESSAGE
         System.out.println(root.getChildren());
         System.out.println(root.getAllUsers());
         
-        if (!isExisted(o)) {
-            ((NodeObject) selectedNodeGroup.getUserObject()).addNodeObject(o);
+        if (((NodeObject) selectedNodeGroup.getUserObject()).addNodeObject(o)) {
             model.nodesWereInserted(selectedNodeGroup, new int[] {selectedNodeGroup.getChildCount() - 1});
-            usedIDs.add(o.getID());
             tree.scrollPathToVisible(new TreePath(o.getNode().getPath()));
-
         }
-    }
-
-    private boolean isExisted(NodeObject o) {
-        for (String id : usedIDs) {
-            if (o.getID().equals(id)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public NodeObject getRoot() {

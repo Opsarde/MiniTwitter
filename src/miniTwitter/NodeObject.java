@@ -1,5 +1,7 @@
 package miniTwitter;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +14,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 // general interface that user can use.
 // 
 public interface NodeObject {
+    public static List<String> usedIDs = new ArrayList<>(Arrays.asList("Root"));
     public String getID();
     public List<Message> getMessages();
     public List<NodeObject> getChildren();

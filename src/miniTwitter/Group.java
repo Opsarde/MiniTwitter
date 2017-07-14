@@ -56,7 +56,8 @@ public class Group implements NodeObject {
         if (!hasObject(o)) {
             objects.add(o);
             node.add(o.getNode());
-            System.out.println("Added");
+            System.out.println(NodeObject.usedIDs);
+            NodeObject.usedIDs.add(o.getID());
             return true;
         }
         return false;
@@ -66,16 +67,10 @@ public class Group implements NodeObject {
         return this.node;
     }
     
-    // This method did not work, so I created a variable
-    // for holding usedIDs in treePanel
     private boolean hasObject(NodeObject o) {
-        for (NodeObject object : objects) {
-            if (o.getID() == object.getID()) {
+        for (String id : NodeObject.usedIDs) {
+            if (id.equals(o.getID())) {
                 return true;
-            }
-            if (object instanceof Group) {
-                Group group = (Group) object;
-                return group.hasObject(o);
             }
         }
         return false;
