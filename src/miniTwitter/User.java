@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
+
 /**
  * Class: User
  * Description: A user contains ID and list of followers
@@ -41,19 +44,16 @@ public class User extends Observable implements NodeObject {
     public void addNodeObject(NodeObject o) {}
 
     @Override
-    public void addMessage(Message message) {}
-
-    @Override
-    public User findUser(String s) {
-        if (s.equals(this.userID))
-            return this;
-        return null;
+    public void addMessage(Message message) {
+        this.messages.add(message);
     }
     
+    @Override
     public void addFollower(User follower) {
         followers.add(follower);
     }
     
+    @Override
     public void addFollowingUser(User followingUser) {
         followingUsers.add(followingUser);
     }
@@ -61,5 +61,13 @@ public class User extends Observable implements NodeObject {
     @Override
     public String toString() {
         return "User: " + userID;
+    }
+
+    @Override
+    public List<User> getAllUsers() {return null;}
+    @Override
+
+    public JTree getTreeView() {
+        return new JTree(new DefaultMutableTreeNode(this));
     }
 }

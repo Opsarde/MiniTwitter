@@ -1,6 +1,8 @@
 package miniTwitter;
 
 import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -14,6 +16,7 @@ import javax.swing.text.AbstractDocument.LeafElement;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 /**
  * Left side panel contains
@@ -25,40 +28,27 @@ import javax.swing.tree.TreeNode;
  */
 public class TreePanel extends JPanel {
     
-    private Group root;
-    private NodeObject component;
+    private NodeObject root;
+    // A list that holds used ID for comparing new ID
+    // however it is a workaround for Group's one user per group property
+    private List<String> usedIDs;
     private JTree tree;
     private NodeObject selectedNode;
     private DefaultMutableTreeNode selectedNodeGroup;
     
     public TreePanel() {
         super();
-        
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-//        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Group("Root"));
-//        //add the root child into roottest?
-//        root.add(new DefaultMutableTreeNode(""));
-//        root.add(new DefaultMutableTreeNode(""));
-//        root.add(new DefaultMutableTreeNode(""));
-//        root.add(new DefaultMutableTreeNode(""));
-//        root.add(new DefaultMutableTreeNode(""));
-        DefaultMutableTreeNode root = new DefaultMutableTreeNode(new Group("Root"));
-        selectedNodeGroup = root;
-        
-        // some hard-coded nodes
-        // they are not stored
-//        DefaultMutableTreeNode john = new DefaultMutableTreeNode(new User("John"));
-//        DefaultMutableTreeNode bob = new DefaultMutableTreeNode(new User("Bob")); 
-//        DefaultMutableTreeNode steve = new DefaultMutableTreeNode(new User("Steve")); 
-//        DefaultMutableTreeNode cs356 = new DefaultMutableTreeNode(new Group("CS356")); 
-//        root.add(john);
-//        cs356.add(steve);
-//        root.add(cs356);
-//        root.add(bob);
 
+        //Create a default NodeObject root
+        //Also add it to a TreeNode for display and to usedID
+        root = new Group("Root");
+        DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(root);
+        usedIDs = new ArrayList<>();
+        usedIDs.add("Root");
+        selectedNodeGroup = treeRoot;
+        tree = new JTree(treeRoot);
 
-        tree = new JTree(root);
-        
         //hardcode simplified
         add(new User("John"));
         add(new User("Bob"));
@@ -66,9 +56,9 @@ public class TreePanel extends JPanel {
         add(new Group("CS356"));
         
         tree.addTreeSelectionListener(new TreeSelectionListener() {
+            //get selectedNode and its parent
             @Override
             public void valueChanged(TreeSelectionEvent e) {
-                // TODO Auto-generated method stub
                 DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                         tree.getLastSelectedPathComponent();
                 
@@ -76,10 +66,12 @@ public class TreePanel extends JPanel {
                 
                 selectedNode = (NodeObject) node.getUserObject();
                 // Also needs a parent
-                if (node.getUserObject() instanceof User)
+                if (node.getUserObject() instanceof User) {
                     selectedNodeGroup = (DefaultMutableTreeNode) node.getParent();
-                else
+                }
+                else {
                     selectedNodeGroup = node;
+                }
             }
         });
 
@@ -87,43 +79,49 @@ public class TreePanel extends JPanel {
         JLabel viewLabel = new JLabel("TreeView: ");
         add(viewLabel);
         add(treeView);
-        //expand by default
-        expandAllNodes(tree, 0, tree.getRowCount());
     }
     
     public NodeObject getSelectedObject() {
         return selectedNode;
     }
     
-    //Copied from stackoverflow
-    private void expandAllNodes(JTree tree, int startingIndex, int rowCount){
-        for(int i=startingIndex;i<rowCount;++i){
-            tree.expandRow(i);
-        }
-
-        if(tree.getRowCount()!=rowCount){
-            expandAllNodes(tree, rowCount, tree.getRowCount());
-        }
-    }
-    
-    // Is there a way I can add new node to a specific group
+    //Add Object to the tree and to the NodeObject root
     public void add(NodeObject o) {
         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(o);
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
         //DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
 
         
+        //DEBUGGING MESSAGE
+        System.out.println(root.getChildren());
+        System.out.println(root.getAllUsers());
+        
         if (!isExisted(o)) {
-            selectedNodeGroup.add(newNode);
-            model.nodesWereInserted(selectedNodeGroup, new int[] {selectedNodeGroup.getChildCount() - 1});
+            //selectedNodeGroup.add(newNode);
+            root.addNodeObject(o);
+            model.insertNodeInto(newNode, selectedNodeGroup, selectedNodeGroup.getChildCount());
+            usedIDs.add(o.getID());
+            tree.scrollPathToVisible(new TreePath(newNode.getPath()));
+           // model.nodesWereInserted(selectedNodeGroup, new int[] {selectedNodeGroup.getChildCount() - 1});
         }
     }
 
     private boolean isExisted(NodeObject o) {
-        Object[] path = selectedNodeGroup.getLastLeaf().getUserObjectPath();
-        for (Object object: path) {
-            NodeObject temp = (NodeObject) object;
-            if ((temp.getID().equals(o.getID()))) {
+        //This does not correctly load every User
+//        TreeNode[] path = selectedNodeGroup.getLastLeaf().getPath();
+//        System.out.println(selectedNodeGroup.getChildCount());
+//        for (TreeNode node : path) {
+//            NodeObject temp = (NodeObject) object;
+//            NodeObject tempObject = (NodeObject) temp.getUserObject();
+//            System.out.println(temp);
+//            if ((tempObject.getID().equals(o.getID()))) {
+//                return true;
+//            }
+//        }
+//        return false;
+        
+        for (String id : usedIDs) {
+            if (o.getID().equals(id)) {
                 return true;
             }
         }

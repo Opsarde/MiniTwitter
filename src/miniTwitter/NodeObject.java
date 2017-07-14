@@ -2,6 +2,8 @@ package miniTwitter;
 
 import java.util.List;
 
+import javax.swing.JTree;
+
 // Component interface
 // 
 public interface NodeObject {
@@ -10,6 +12,9 @@ public interface NodeObject {
     public List<NodeObject> getChildren();
     public void addNodeObject(NodeObject o);
     public void addMessage(Message message);
-    public User findUser(String s);
+    public void addFollower(User follower);
+    public void addFollowingUser(User followingUser);
+    public List<User> getAllUsers();
+    public JTree getTreeView();
     public String toString();
 }
