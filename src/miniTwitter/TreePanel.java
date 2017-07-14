@@ -30,7 +30,7 @@ public class TreePanel extends JPanel {
     
     private NodeObject root;
     // A list that holds used ID for comparing new ID
-    // however it is a workaround for Group's one user per group property
+    // (Question: Should it be a property in Group class?)
     private List<String> usedIDs;
     private JTree tree;
     private NodeObject selectedNode;
@@ -128,8 +128,7 @@ public class TreePanel extends JPanel {
         return false;
     }
 
-    public DefaultMutableTreeNode getRoot() {
-        DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
+    public NodeObject getRoot() {
         return root;
     }
 

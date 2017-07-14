@@ -1,10 +1,13 @@
 package miniTwitter;
 
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 /**
@@ -24,6 +27,16 @@ public class FourButtonPanel extends JPanel {
         addButton(new JButton("Show Group Total"));
         addButton(new JButton("Show Messages Total"));
         addButton(new JButton("Show Positive Percentage"));
+        // Pass the group root into visitor
+        for (JButton button : buttons) {
+            button.addActionListener(new ActionListener() {
+                
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    JOptionPane.showMessageDialog(null, "Placeholder.");
+                }
+            });;
+        }
     }
     
     public JButton getButton(int index) {
