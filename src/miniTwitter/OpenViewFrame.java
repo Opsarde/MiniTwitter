@@ -13,6 +13,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
+/**
+ * Class: OpenViewFrame
+ * Description: User View window initialized
+ * with four functional panels.
+ * 
+ * @author shun
+ */
 public class OpenViewFrame extends JFrame implements Observer {
     private TextButtonPanel followTextAndButton;
     private TextButtonPanel tweetTextAndButton;

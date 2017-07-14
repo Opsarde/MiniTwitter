@@ -18,6 +18,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * @author shun
  */
 public class User extends Observable implements NodeObject {
+    private DefaultMutableTreeNode node;
     private String userID;
     private Set<User> followers;
     private Set<User> followingUsers;
@@ -28,6 +29,7 @@ public class User extends Observable implements NodeObject {
         followers = new HashSet<>();
         followingUsers = new HashSet<>();
         messages = new ArrayList<>();
+        node = new DefaultMutableTreeNode(this);
     }
     @Override
     public String getID() {
@@ -43,7 +45,7 @@ public class User extends Observable implements NodeObject {
     public List<NodeObject> getChildren() {return null;}
 
     @Override
-    public void addNodeObject(NodeObject o) {}
+    public boolean addNodeObject(NodeObject o) {return false;}
 
     @Override
     public void addMessage(Message message) {
@@ -69,11 +71,6 @@ public class User extends Observable implements NodeObject {
     public List<User> getAllUsers() {return null;}
 
     @Override
-    public JTree getTreeView() {
-        return new JTree(new DefaultMutableTreeNode(this));
-    }
-
-    @Override
     public Set<User> getFollowers() {
         return followers;
     }
@@ -81,5 +78,9 @@ public class User extends Observable implements NodeObject {
     @Override
     public Set<User> getFollowingUsers() {
         return followingUsers;
+    }
+    @Override
+    public DefaultMutableTreeNode getNode() {
+        return this.node;
     }
 }

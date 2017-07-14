@@ -24,10 +24,6 @@ public class AdminControlPanel extends JPanel {
     private JButton openView;
     private FourButtonPanel utility;
     private JPanel rightPanel;
-//    private TextButtonPanel userIDPanel;
-//    private TextButtonPanel groupIDPanel;
-//    private JButton openViewButton;
-//    private UtilityPanel utilityPanel;
     
     public AdminControlPanel() {
         super(new GridLayout(1, 2));
@@ -45,7 +41,6 @@ public class AdminControlPanel extends JPanel {
                 //add user to the tree and to root group
                 String name = userPanel.getField().getText();
                 if (!name.isEmpty())
-                    //addToTree(new User(name));
                     treePanel.add(new User(name));
             }
         });

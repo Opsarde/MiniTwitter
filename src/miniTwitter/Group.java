@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Set;
 
 import javax.swing.JTree;
@@ -21,14 +22,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * @author shun
  */
 public class Group implements NodeObject {
+    private DefaultMutableTreeNode node;
     private String groupID;
     private List<NodeObject> objects;
-    //private List<User> users;
-    //private List<Group> groups;
 
     public Group(String groupID) {
         this.groupID = groupID;
         objects = new ArrayList<>();
+        node = new DefaultMutableTreeNode(this);
     }
 
     @Override
@@ -51,18 +52,27 @@ public class Group implements NodeObject {
     }
     
     @Override
-    public void addNodeObject(NodeObject o) {
+    public boolean addNodeObject(NodeObject o) {
         if (!hasObject(o)) {
             objects.add(o);
+            node.add(o.getNode());
+            System.out.println("Added");
+            return true;
         }
+        return false;
     }
     
+    public DefaultMutableTreeNode getNode() {
+        return this.node;
+    }
+    
+    // This method did not work, so I created a variable
+    // for holding usedIDs in treePanel
     private boolean hasObject(NodeObject o) {
         for (NodeObject object : objects) {
             if (o.getID() == object.getID()) {
                 return true;
             }
-            
             if (object instanceof Group) {
                 Group group = (Group) object;
                 return group.hasObject(o);
@@ -100,25 +110,6 @@ public class Group implements NodeObject {
         return users;
     } 
     
-    public JTree getTreeView() {
-        JTree tree = new JTree(this.toDefaultMutableTreeNode());
-        return tree;
-    }
-    
-    private DefaultMutableTreeNode toDefaultMutableTreeNode() {
-        DefaultMutableTreeNode node = new DefaultMutableTreeNode(this);
-        for (NodeObject o : objects) {
-            if (o instanceof User) {
-                node.add(new DefaultMutableTreeNode(o));
-            }
-            else {
-                Group group = (Group) o;
-                node.add(group.toDefaultMutableTreeNode());
-            }
-        }
-        return node;
-    }
-
     @Override
     public Set<User> getFollowers() {return null;}
 

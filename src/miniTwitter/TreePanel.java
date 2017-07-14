@@ -33,7 +33,7 @@ public class TreePanel extends JPanel {
     // (Question: Should it be a property in Group class?)
     private List<String> usedIDs;
     private JTree tree;
-    private NodeObject selectedNode;
+    private DefaultMutableTreeNode selectedNode;
     private DefaultMutableTreeNode selectedNodeGroup;
     
     public TreePanel() {
@@ -43,11 +43,11 @@ public class TreePanel extends JPanel {
         //Create a default NodeObject root
         //Also add it to a TreeNode for display and to usedID
         root = new Group("Root");
-        DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(root);
+        //DefaultMutableTreeNode treeRoot = new DefaultMutableTreeNode(root);
         usedIDs = new ArrayList<>();
         usedIDs.add("Root");
-        selectedNodeGroup = treeRoot;
-        tree = new JTree(treeRoot);
+        selectedNodeGroup = root.getNode();
+        tree = new JTree(root.getNode());
 
         //hardcode simplified
         add(new User("John"));
@@ -64,7 +64,7 @@ public class TreePanel extends JPanel {
                 
                 if (node == null) return;
                 
-                selectedNode = (NodeObject) node.getUserObject();
+                selectedNode = node;
                 // Also needs a parent
                 if (node.getUserObject() instanceof User) {
                     selectedNodeGroup = (DefaultMutableTreeNode) node.getParent();
@@ -82,44 +82,28 @@ public class TreePanel extends JPanel {
     }
     
     public NodeObject getSelectedObject() {
-        return selectedNode;
+        return (NodeObject) selectedNode.getUserObject();
     }
     
     //Add Object to the tree and to the NodeObject root
     public void add(NodeObject o) {
         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(o);
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-        //DefaultMutableTreeNode root = (DefaultMutableTreeNode) model.getRoot();
-
         
         //DEBUGGING MESSAGE
         System.out.println(root.getChildren());
         System.out.println(root.getAllUsers());
         
         if (!isExisted(o)) {
-            //selectedNodeGroup.add(newNode);
-            root.addNodeObject(o);
-            model.insertNodeInto(newNode, selectedNodeGroup, selectedNodeGroup.getChildCount());
+            ((NodeObject) selectedNodeGroup.getUserObject()).addNodeObject(o);
+            model.nodesWereInserted(selectedNodeGroup, new int[] {selectedNodeGroup.getChildCount() - 1});
             usedIDs.add(o.getID());
-            tree.scrollPathToVisible(new TreePath(newNode.getPath()));
-           // model.nodesWereInserted(selectedNodeGroup, new int[] {selectedNodeGroup.getChildCount() - 1});
+            tree.scrollPathToVisible(new TreePath(o.getNode().getPath()));
+
         }
     }
 
     private boolean isExisted(NodeObject o) {
-        //This does not correctly load every User
-//        TreeNode[] path = selectedNodeGroup.getLastLeaf().getPath();
-//        System.out.println(selectedNodeGroup.getChildCount());
-//        for (TreeNode node : path) {
-//            NodeObject temp = (NodeObject) object;
-//            NodeObject tempObject = (NodeObject) temp.getUserObject();
-//            System.out.println(temp);
-//            if ((tempObject.getID().equals(o.getID()))) {
-//                return true;
-//            }
-//        }
-//        return false;
-        
         for (String id : usedIDs) {
             if (o.getID().equals(id)) {
                 return true;
