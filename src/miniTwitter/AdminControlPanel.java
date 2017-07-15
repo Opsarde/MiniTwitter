@@ -68,7 +68,9 @@ public class AdminControlPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 NodeObject selected = treePanel.getSelectedObject();
                 if (selected != null && selected instanceof User) {
-                    OpenViewFrame newWindow = new OpenViewFrame((User) selected);
+                    User user = (User) selected;
+                    OpenViewFrame newWindow = new OpenViewFrame(user);
+                    user.addObserver(newWindow);
                 }
             }
         });

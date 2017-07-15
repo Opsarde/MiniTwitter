@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 /**
  * ButtonPanel
  * Description: Contains buttons
+ * with each button utility.
  * 
  * @author shun
  */

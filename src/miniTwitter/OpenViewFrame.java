@@ -16,7 +16,8 @@ import javax.swing.JTextPane;
 /**
  * Class: OpenViewFrame
  * Description: User View window initialized
- * with four functional panels.
+ * with four functional panels. Each user will
+ * have its own Frame.
  * 
  * @author shun
  */
@@ -56,7 +57,7 @@ public class OpenViewFrame extends JFrame implements Observer {
                 }
                 //This line will be updated in observer method
                 //followUserPanel.setText(user.getFollowingUsers().toString());
-                followUserPanel.setText(user.getFollowingUsers().toString());
+
             }
         });
         
@@ -77,10 +78,12 @@ public class OpenViewFrame extends JFrame implements Observer {
                 user.addMessage(new UserMessage(msg, user));
                 // should be included in update()
                 //tweetPanel.setText(user.getMessages().toString());
-                tweetPanel.setText(user.getMessages().toString());
+
             }
         });
-        
+
+        followUserPanel.setText(user.getFollowingUsers().toString()); 
+        tweetPanel.setText(user.getMessages().toString());
         mainPanel.add(subPanel1);
         mainPanel.add(subPanel2);
         
@@ -95,6 +98,10 @@ public class OpenViewFrame extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         // TODO Auto-generated method stub
+        if (arg instanceof User) {
+            followUserPanel.setText(((User) arg).getFollowingUsers().toString()); 
+            tweetPanel.setText(((User) arg).getMessages().toString());
+        }
         
     }
 

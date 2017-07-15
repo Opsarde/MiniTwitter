@@ -11,9 +11,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 
 /**
  * Class: User
- * Description: A user contains ID and list of followers
- * (followers are also users).  Also a list of following
- * users.  Ultimately, it contains list of messages(followers)
+ * Description: An Observable User class that contains ID and
+ * list of followers. Also a list of following
+ * users.  Ultimately, it contains list of messages that acts
+ * as newsfeed.  
  * 
  * @author shun
  */
@@ -50,16 +51,22 @@ public class User extends Observable implements NodeObject {
     @Override
     public void addMessage(Message message) {
         this.feedList.add(message);
+        setChanged();
+        notifyObservers(this);
     }
     
     @Override
     public void addFollower(User follower) {
         followers.add(follower);
+        setChanged();
+        notifyObservers(this);
     }
     
     @Override
     public void addFollowingUser(User followingUser) {
         followingUsers.add(followingUser);
+        setChanged();
+        notifyObservers(this);
     }
     
     @Override
