@@ -30,6 +30,7 @@ public class OpenViewFrame extends JFrame implements Observer {
         super(user.getID());
         JPanel mainPanel = new JPanel(new GridLayout(2, 1));
         
+        //initialize top-part panel for user following
         JPanel subPanel1 = new JPanel(new GridLayout(2, 1));
         followTextAndButton = new TextButtonPanel("Follow User");
         subPanel1.add(followTextAndButton);
@@ -57,6 +58,7 @@ public class OpenViewFrame extends JFrame implements Observer {
             }
         });
         
+        //initialize down-part panel for message posting
         JPanel subPanel2 = new JPanel(new GridLayout(2, 1));
         tweetTextAndButton = new TextButtonPanel("Post Tweet");
         subPanel2.add(tweetTextAndButton);

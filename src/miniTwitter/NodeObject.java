@@ -7,11 +7,14 @@ import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-// Component interface
-// Class: NodeObject
-// Purpose: groups User and Group into a
-// general interface that user can use.
-// 
+/**
+ * Component interface
+ * Interface: NodeObject
+ * Purpose: groups User and Group into a
+ * general interface that user can use.
+ */
+
+ 
 public interface NodeObject {
     public static List<String> usedIDs = new ArrayList<>(Arrays.asList("Root"));
     public String getID();

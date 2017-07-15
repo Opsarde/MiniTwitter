@@ -1,3 +1,15 @@
+/***************************************************
+ * CS 356 - Assignment 1
+ * Shun Lu
+ * July 13, 2017
+ * 
+ * Description: This program simulates Twitter's
+ * basic functions, including creating users and groups,
+ * showing statistics, posting message, and following 
+ * users.  Singleton, Composite, Observer, and Visitor
+ * patterns are used in this project.
+ * 
+ **************************************************/
 package miniTwitter;
 
 

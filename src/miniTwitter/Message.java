@@ -3,7 +3,7 @@ package miniTwitter;
 /**
  * 
  * Class: Message
- * Description: A string represents message.
+ * Description: A string representation of message.
  * 
  * @author shun
  */

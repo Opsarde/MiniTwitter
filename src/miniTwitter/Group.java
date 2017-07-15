@@ -12,8 +12,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Description:
  * Contains Users and groups, no same user
  * in different groups.  Has group root as
- * default. I think this is the composite
- * class.
+ * default.
  * 
  * @author shun
  */
