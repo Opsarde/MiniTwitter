@@ -23,11 +23,9 @@ import javax.swing.JPanel;
 public class FourButtonPanel extends JPanel {
 
     private List<JButton> buttons;
-    private NodeObject root;
 
     public FourButtonPanel(LayoutManager layout, NodeObject root) {
         super(layout);
-        this.root = root;
         buttons = new ArrayList<>();
         addButton(new JButton("Show User Total"));
         addButton(new JButton("Show Group Total"));
