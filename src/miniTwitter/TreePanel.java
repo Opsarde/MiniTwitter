@@ -81,7 +81,10 @@ public class TreePanel extends JPanel {
     }
     
     public NodeObject getSelectedObject() {
-        return (NodeObject) selectedNode.getUserObject();
+        if (selectedNode != null) {
+            return (NodeObject) selectedNode.getUserObject();
+        }
+        return null;
     }
     
     //Add Object to the tree and to the NodeObject root

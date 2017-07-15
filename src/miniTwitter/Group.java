@@ -110,4 +110,16 @@ public class Group implements NodeObject {
 
     @Override
     public Set<User> getFollowingUsers() {return null;}
+
+    @Override
+    public NodeObject getRoot() {
+        DefaultMutableTreeNode nodeRoot = (DefaultMutableTreeNode) this.node.getRoot();
+        NodeObject root = (NodeObject) nodeRoot.getUserObject();
+        return root;
+    }
+
+    @Override
+    public void accept(Visitor vis) {
+        vis.visitGroup(this);
+    }
 }

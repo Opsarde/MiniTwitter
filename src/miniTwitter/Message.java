@@ -21,5 +21,14 @@ public abstract class Message {
     public void setWords(String words) {
         this.words = words;
     };
-
+    
+    public boolean contains(String... goodWords) {
+        String temp = words.toLowerCase();
+        for (String s  : goodWords) {
+            if (temp.contains(s.toLowerCase())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

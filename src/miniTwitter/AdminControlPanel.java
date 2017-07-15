@@ -68,33 +68,16 @@ public class AdminControlPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 NodeObject selected = treePanel.getSelectedObject();
                 if (selected != null && selected instanceof User) {
-                    // the constructor needs both selected and root object
-                    OpenViewFrame newWindow = new OpenViewFrame(selected, treePanel.getRoot());
+                    OpenViewFrame newWindow = new OpenViewFrame((User) selected);
                 }
             }
         });
         rightPanel.add(openView);
         
         // four utility button
-        utility = new FourButtonPanel(new GridLayout(2, 2));
+        utility = new FourButtonPanel(new GridLayout(2, 2), treePanel.getRoot());
         rightPanel.add(utility);
 
         add(rightPanel);
-    }
-
-    public TextButtonPanel getUserPanel() {
-        return userPanel;
-    }
-
-    public void setUserPanel(TextButtonPanel userPanel) {
-        this.userPanel = userPanel;
-    }
-
-    public TextButtonPanel getGroupPanel() {
-        return groupPanel;
-    }
-
-    public void setGroupPanel(TextButtonPanel groupPanel) {
-        this.groupPanel = groupPanel;
     }
 }

@@ -26,5 +26,7 @@ public interface NodeObject {
     public Set<User> getFollowingUsers();
     public List<User> getAllUsers();
     public DefaultMutableTreeNode getNode();
+    public NodeObject getRoot();
+    public void accept(Visitor vis);
     public String toString();
 }

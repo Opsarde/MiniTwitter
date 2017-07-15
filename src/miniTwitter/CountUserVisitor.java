@@ -6,10 +6,22 @@ public class CountUserVisitor implements Visitor {
 
     @Override
     public void visitUser(User user) {
+        count++;
     }
 
     @Override
     public void visitGroup(Group group) {
+        for (NodeObject o : group.getChildren()) {
+            if (o instanceof User) {
+                visitUser((User) o);
+            }
+            else if (o instanceof Group) {
+                visitGroup((Group) o);
+            }
+        }
     }
     
+    public int getCount() {
+        return count;
+    }
 }

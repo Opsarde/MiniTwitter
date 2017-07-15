@@ -26,7 +26,7 @@ public class OpenViewFrame extends JFrame implements Observer {
     private JTextArea followUserPanel;
     private JTextArea tweetPanel;
     
-    public OpenViewFrame(NodeObject user, NodeObject root) {
+    public OpenViewFrame(User user) {
         super(user.getID());
         JPanel mainPanel = new JPanel(new GridLayout(2, 1));
         
@@ -44,7 +44,7 @@ public class OpenViewFrame extends JFrame implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String id = followTextAndButton.getField().getText();
-                List<User> availableUsers = root.getAllUsers();
+                List<User> availableUsers = user.getRoot().getAllUsers();
                 User following = null;
                 for (User person : availableUsers) {
                     if (person.getID().equals(id)) {
@@ -55,6 +55,7 @@ public class OpenViewFrame extends JFrame implements Observer {
                     user.addFollowingUser(following);
                 }
                 //This line will be updated in observer method
+                //followUserPanel.setText(user.getFollowingUsers().toString());
                 followUserPanel.setText(user.getFollowingUsers().toString());
             }
         });
@@ -73,8 +74,9 @@ public class OpenViewFrame extends JFrame implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String msg = tweetTextAndButton.getField().getText();
-                user.addMessage(new UserMessage(msg));
+                user.addMessage(new UserMessage(msg, user));
                 // should be included in update()
+                //tweetPanel.setText(user.getMessages().toString());
                 tweetPanel.setText(user.getMessages().toString());
             }
         });

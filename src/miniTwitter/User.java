@@ -22,13 +22,13 @@ public class User extends Observable implements NodeObject {
     private String userID;
     private Set<User> followers;
     private Set<User> followingUsers;
-    private List<Message> messages;
+    private List<Message> feedList;
 
     public User(String userID) {
         this.userID = userID;
         followers = new HashSet<>();
         followingUsers = new HashSet<>();
-        messages = new ArrayList<>();
+        feedList = new ArrayList<>();
         node = new DefaultMutableTreeNode(this);
     }
     @Override
@@ -38,7 +38,7 @@ public class User extends Observable implements NodeObject {
 
     @Override
     public List<Message> getMessages() {
-        return messages;
+        return feedList;
     }
 
     @Override
@@ -49,7 +49,7 @@ public class User extends Observable implements NodeObject {
 
     @Override
     public void addMessage(Message message) {
-        this.messages.add(message);
+        this.feedList.add(message);
     }
     
     @Override
@@ -79,8 +79,22 @@ public class User extends Observable implements NodeObject {
     public Set<User> getFollowingUsers() {
         return followingUsers;
     }
+
     @Override
     public DefaultMutableTreeNode getNode() {
         return this.node;
     }
+    
+    @Override
+    public NodeObject getRoot() {
+        DefaultMutableTreeNode nodeRoot = (DefaultMutableTreeNode) this.node.getRoot();
+        NodeObject root = (NodeObject) nodeRoot.getUserObject();
+        return root;
+    }
+    @Override
+    public void accept(Visitor vis) {
+        vis.visitUser(this);
+    }
+
+    
 }
