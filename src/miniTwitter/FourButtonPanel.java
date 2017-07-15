@@ -14,6 +14,9 @@ import javax.swing.JPanel;
  * ButtonPanel
  * Description: Contains buttons
  * with each button utility.
+ * One can add some new buttons to
+ * this panel, then it will not get
+ * called FourButtonPanel.
  * 
  * @author shun
  */

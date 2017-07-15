@@ -17,6 +17,7 @@ public interface NodeObject {
     public static List<String> usedIDs = new ArrayList<>(Arrays.asList("Root"));
     public String getID();
     public List<Message> getMessages();
+    public String getMessagesAsString();
     public List<NodeObject> getChildren();
     public boolean addNodeObject(NodeObject o);
     public void addMessage(Message message);
@@ -24,6 +25,7 @@ public interface NodeObject {
     public void addFollowingUser(User followingUser);
     public Set<User> getFollowers();
     public Set<User> getFollowingUsers();
+    public String getFollowingUsersAsString();
     public List<User> getAllUsers();
     public DefaultMutableTreeNode getNode();
     public NodeObject getRoot();

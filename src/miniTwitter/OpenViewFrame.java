@@ -34,7 +34,6 @@ public class OpenViewFrame extends JFrame implements Observer {
         JPanel subPanel1 = new JPanel(new GridLayout(2, 1));
         followTextAndButton = new TextButtonPanel("Follow User");
         subPanel1.add(followTextAndButton);
-        //JTextPane followUserPanel = new JTextPane();
         followUserPanel = new JTextArea(5, 20);
         followUserPanel.setEditable(false);
         followUserPanel.setLineWrap(true);
@@ -54,17 +53,14 @@ public class OpenViewFrame extends JFrame implements Observer {
                 }
                 if (following != null && !following.getID().equals(user.getID())) {
                     user.addFollowingUser(following);
+                    following.addFollower(user);
                 }
-                //This line will be updated in observer method
-                //followUserPanel.setText(user.getFollowingUsers().toString());
-
             }
         });
         
         JPanel subPanel2 = new JPanel(new GridLayout(2, 1));
         tweetTextAndButton = new TextButtonPanel("Post Tweet");
         subPanel2.add(tweetTextAndButton);
-        //JTextPane tweetPanel = new JTextPane();
         tweetPanel = new JTextArea(5, 20);
         tweetPanel.setEditable(false);
         tweetPanel.setLineWrap(true);
@@ -76,14 +72,14 @@ public class OpenViewFrame extends JFrame implements Observer {
             public void actionPerformed(ActionEvent e) {
                 String msg = tweetTextAndButton.getField().getText();
                 user.addMessage(new UserMessage(msg, user));
-                // should be included in update()
-                //tweetPanel.setText(user.getMessages().toString());
-
+                for (User followers : user.getFollowers()) {
+                    followers.addMessage(new UserMessage(msg, user));
+                }
             }
         });
 
-        followUserPanel.setText(user.getFollowingUsers().toString()); 
-        tweetPanel.setText(user.getMessages().toString());
+        followUserPanel.setText(user.getFollowingUsersAsString()); 
+        tweetPanel.setText(user.getMessagesAsString());
         mainPanel.add(subPanel1);
         mainPanel.add(subPanel2);
         
@@ -95,12 +91,12 @@ public class OpenViewFrame extends JFrame implements Observer {
         setVisible(true);
     }
 
+    //Updates the user view when there is change in user
     @Override
     public void update(Observable o, Object arg) {
-        // TODO Auto-generated method stub
         if (arg instanceof User) {
-            followUserPanel.setText(((User) arg).getFollowingUsers().toString()); 
-            tweetPanel.setText(((User) arg).getMessages().toString());
+            followUserPanel.setText(((User) arg).getFollowingUsersAsString()); 
+            tweetPanel.setText(((User) arg).getMessagesAsString());
         }
         
     }

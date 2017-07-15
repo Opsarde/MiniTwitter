@@ -90,7 +90,6 @@ public class Group implements NodeObject {
     @Override
     public void addFollowingUser(User followingUser) {}
 
-    //still testing this function
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
@@ -122,4 +121,10 @@ public class Group implements NodeObject {
     public void accept(Visitor vis) {
         vis.visitGroup(this);
     }
+
+    @Override
+    public String getMessagesAsString() {return null;}
+
+    @Override
+    public String getFollowingUsersAsString() {return null;}
 }

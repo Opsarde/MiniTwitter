@@ -4,13 +4,11 @@ public class CountMessageVisitor implements Visitor {
 
     // Also counts repeated message in each user's
     // feedlist.
-
     private int count;
 
     @Override
     public void visitUser(User user) {
         count += user.getMessages().size();
-        
     }
 
     @Override

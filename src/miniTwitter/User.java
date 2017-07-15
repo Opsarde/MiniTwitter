@@ -41,6 +41,15 @@ public class User extends Observable implements NodeObject {
     public List<Message> getMessages() {
         return feedList;
     }
+    
+    @Override
+    public String getMessagesAsString() {
+        String message = "";
+        for (Message msg : feedList) {
+            message += msg + "\n";
+        }
+        return message;
+    }
 
     @Override
     public List<NodeObject> getChildren() {return null;}
@@ -58,8 +67,6 @@ public class User extends Observable implements NodeObject {
     @Override
     public void addFollower(User follower) {
         followers.add(follower);
-        setChanged();
-        notifyObservers(this);
     }
     
     @Override
@@ -85,6 +92,15 @@ public class User extends Observable implements NodeObject {
     @Override
     public Set<User> getFollowingUsers() {
         return followingUsers;
+    }
+    
+    @Override
+    public String getFollowingUsersAsString() {
+        String users = "";
+        for (User user : followingUsers) {
+            users += user.toString() + "\n";
+        }
+        return users;
     }
 
     @Override

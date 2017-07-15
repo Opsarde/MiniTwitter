@@ -64,7 +64,7 @@ public class TreePanel extends JPanel {
                 if (node == null) return;
                 
                 selectedNode = node;
-                // Also needs a parent
+                // Get the group
                 if (node.getUserObject() instanceof User) {
                     selectedNodeGroup = (DefaultMutableTreeNode) node.getParent();
                 }
@@ -90,10 +90,6 @@ public class TreePanel extends JPanel {
     //Add Object to the tree and to the NodeObject root
     public void add(NodeObject o) {
         DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-        
-        //DEBUGGING MESSAGE
-        System.out.println(root.getChildren());
-        System.out.println(root.getAllUsers());
         
         if (((NodeObject) selectedNodeGroup.getUserObject()).addNodeObject(o)) {
             model.nodesWereInserted(selectedNodeGroup, new int[] {selectedNodeGroup.getChildCount() - 1});
