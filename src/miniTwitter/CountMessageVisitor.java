@@ -27,4 +27,13 @@ public class CountMessageVisitor implements Visitor {
         return count;
     }
     
+    @Override
+    public String toString() {
+        return "Count: " + this.getCount();
+    }
+
+    @Override
+    public void reset() {
+        count = 0;
+    }
 }

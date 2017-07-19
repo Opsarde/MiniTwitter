@@ -12,10 +12,14 @@ import javax.swing.tree.DefaultMutableTreeNode;
  * Interface: NodeObject
  * Purpose: groups User and Group into a
  * general interface that user can use.
+ * Currently, one is not be able to add duplicate IDs
+ * into the tree or root. Since both user and group share 
+ * a common list UsedIDs, both are inclusive for duplication check.
  */
 
  
 public interface NodeObject {
+    public static final long FIRST_CREATION_TIME = System.currentTimeMillis();
     public static List<String> usedIDs = new ArrayList<>(Arrays.asList("Root"));
     public String getID();
     public List<Message> getMessages();
@@ -31,6 +35,9 @@ public interface NodeObject {
     public List<User> getAllUsers();
     public DefaultMutableTreeNode getNode();
     public NodeObject getRoot();
+    public boolean isValid();
+    public long getCreationTime();
+    public long getLastUpdateTime();
     public void accept(Visitor vis);
     public String toString();
 }

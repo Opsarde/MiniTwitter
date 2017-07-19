@@ -20,11 +20,13 @@ public class Group implements NodeObject {
     private DefaultMutableTreeNode node;
     private String groupID;
     private List<NodeObject> objects;
+    private long creationTime;
 
     public Group(String groupID) {
         this.groupID = groupID;
         objects = new ArrayList<>();
         node = new DefaultMutableTreeNode(this);
+        creationTime = System.currentTimeMillis();
     }
 
     @Override
@@ -122,4 +124,17 @@ public class Group implements NodeObject {
 
     @Override
     public String getFollowingUsersAsString() {return null;}
+    
+    @Override
+    public boolean isValid() {
+        return !this.getID().contains(" ");
+    }
+
+    @Override
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    @Override
+    public long getLastUpdateTime() {return 0;}
 }

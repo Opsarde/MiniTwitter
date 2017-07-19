@@ -17,7 +17,7 @@ public class AdminControlPanel extends JPanel {
     private TreePanel treePanel;
     private TextButtonPanel userPanel, groupPanel;
     private JButton openView;
-    private FourButtonPanel utility;
+    private UtilityButtonPanel utility;
     private JPanel rightPanel;
     
     public AdminControlPanel() {
@@ -27,13 +27,14 @@ public class AdminControlPanel extends JPanel {
         rightPanel = new JPanel(new GridLayout(3, 1));
         JPanel textButtonArea = new JPanel(new GridLayout(2, 1));
         
+        // One cannot add usedIDs into the tree
+        
         // add user row
         userPanel = new TextButtonPanel("Add User");
-        //When clicking add user button:
         userPanel.getButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //add user to the tree and to root group
+                //add user to the tree
                 String name = userPanel.getField().getText();
                 if (!name.isEmpty())
                     treePanel.add(new User(name));
@@ -46,9 +47,9 @@ public class AdminControlPanel extends JPanel {
         groupPanel.getButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //add group to the tree
                 String name = groupPanel.getField().getText();
                 if (!name.isEmpty())
-                    //addToTree(new Group(name));
                     treePanel.add(new Group(name));
             }
         });
@@ -72,7 +73,8 @@ public class AdminControlPanel extends JPanel {
         rightPanel.add(openView);
         
         // four utility button
-        utility = new FourButtonPanel(new GridLayout(2, 2), treePanel.getRoot());
+        // After update, it will be six buttons
+        utility = new UtilityButtonPanel(new GridLayout(3, 2), treePanel.getRoot());
         rightPanel.add(utility);
 
         add(rightPanel);

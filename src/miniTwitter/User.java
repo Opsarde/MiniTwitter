@@ -23,6 +23,8 @@ public class User extends Observable implements NodeObject {
     private Set<User> followers;
     private Set<User> followingUsers;
     private List<Message> feedList;
+    private long creationTime;
+    private long lastUpdateTime;
 
     public User(String userID) {
         this.userID = userID;
@@ -30,7 +32,10 @@ public class User extends Observable implements NodeObject {
         followingUsers = new HashSet<>();
         feedList = new ArrayList<>();
         node = new DefaultMutableTreeNode(this);
+        creationTime = System.currentTimeMillis();
+        lastUpdateTime = NodeObject.FIRST_CREATION_TIME;
     }
+
     @Override
     public String getID() {
         return userID;
@@ -59,6 +64,7 @@ public class User extends Observable implements NodeObject {
     @Override
     public void addMessage(Message message) {
         this.feedList.add(message);
+        lastUpdateTime = System.currentTimeMillis();
         setChanged();
         notifyObservers(this);
     }
@@ -113,10 +119,23 @@ public class User extends Observable implements NodeObject {
         NodeObject root = (NodeObject) nodeRoot.getUserObject();
         return root;
     }
+    
     @Override
     public void accept(Visitor vis) {
         vis.visitUser(this);
     }
 
+    public boolean isValid() {
+        return !this.getID().contains(" ");
+    }
     
+    @Override
+    public long getCreationTime() {
+        return creationTime;
+    }
+
+    @Override
+    public long getLastUpdateTime() {
+        return lastUpdateTime;
+    }
 }

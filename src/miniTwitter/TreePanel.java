@@ -22,10 +22,6 @@ import javax.swing.tree.TreePath;
 public class TreePanel extends JPanel {
     
     private NodeObject root;
-    // A list that holds used ID for comparing new ID
-    // Since I created a static List in NodeObject interface,
-    // it shouldn't be needed. 
-    // private List<String> usedIDs;
     private JTree tree;
     private DefaultMutableTreeNode selectedNode;
     private DefaultMutableTreeNode selectedNodeGroup;
@@ -47,6 +43,16 @@ public class TreePanel extends JPanel {
         add(new User("Steve"));
         add(new Group("CS356"));
         
+        //add treeActionListener for getting selected node
+        setTreeListener();
+
+        JScrollPane treeView = new JScrollPane(tree);
+        JLabel viewLabel = new JLabel("TreeView: ");
+        add(viewLabel);
+        add(treeView);
+    }
+
+    private void setTreeListener() {
         tree.addTreeSelectionListener(new TreeSelectionListener() {
             //get selectedNode and its parent
             @Override
@@ -66,11 +72,6 @@ public class TreePanel extends JPanel {
                 }
             }
         });
-
-        JScrollPane treeView = new JScrollPane(tree);
-        JLabel viewLabel = new JLabel("TreeView: ");
-        add(viewLabel);
-        add(treeView);
     }
     
     public NodeObject getSelectedObject() {

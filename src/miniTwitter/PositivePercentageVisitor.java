@@ -35,5 +35,15 @@ public class PositivePercentageVisitor implements Visitor{
             return Math.round(goodMessages / totalMessages * 100);
         }
     }
+    
+    @Override
+    public String toString() {
+        return "Good Percent: " + this.getPercent() + "%";
+    }
 
+    @Override
+    public void reset() {
+        totalMessages = 0;
+        goodMessages = 0;
+    }
 }

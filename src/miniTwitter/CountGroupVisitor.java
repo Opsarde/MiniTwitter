@@ -25,4 +25,14 @@ public class CountGroupVisitor implements Visitor {
     public int getCount() {
         return count;
     }
+    
+    @Override
+    public String toString() {
+        return "Count: " + this.getCount();
+    }
+
+    @Override
+    public void reset() {
+        count = 0;
+    }
 }

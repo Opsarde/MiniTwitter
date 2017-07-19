@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -25,11 +27,13 @@ public class OpenViewFrame extends JFrame implements Observer {
     private TextButtonPanel tweetTextAndButton;
     private JTextArea followUserPanel;
     private JTextArea tweetPanel;
+    private TimePanel timePanel;
     
     public OpenViewFrame(User user) {
         super(user.getID());
-        JPanel mainPanel = new JPanel(new GridLayout(2, 1));
-        
+        timePanel = new TimePanel(user);
+        JPanel mainPanel = new JPanel(new GridLayout(3, 1));
+
         //initialize top-part panel for user following
         JPanel subPanel1 = new JPanel(new GridLayout(2, 1));
         followTextAndButton = new TextButtonPanel("Follow User");
@@ -81,9 +85,10 @@ public class OpenViewFrame extends JFrame implements Observer {
 
         followUserPanel.setText(user.getFollowingUsersAsString()); 
         tweetPanel.setText(user.getMessagesAsString());
+
         mainPanel.add(subPanel1);
         mainPanel.add(subPanel2);
-        
+        mainPanel.add(new TimePanel(user));
         add(mainPanel);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -99,7 +104,5 @@ public class OpenViewFrame extends JFrame implements Observer {
             followUserPanel.setText(((User) arg).getFollowingUsersAsString()); 
             tweetPanel.setText(((User) arg).getMessagesAsString());
         }
-        
     }
-
 }
