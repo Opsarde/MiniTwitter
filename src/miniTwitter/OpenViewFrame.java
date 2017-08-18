@@ -77,9 +77,9 @@ public class OpenViewFrame extends JFrame implements Observer {
             public void actionPerformed(ActionEvent e) {
                 String msg = tweetTextAndButton.getField().getText();
                 user.addMessage(new UserMessage(msg, user));
-                for (User followers : user.getFollowers()) {
-                    followers.addMessage(new UserMessage(msg, user));
-                }
+//                for (User followers : user.getFollowers()) {
+//                    followers.addMessage(new UserMessage(msg, user));
+//                }
             }
         });
 

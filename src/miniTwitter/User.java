@@ -23,6 +23,7 @@ public class User extends Observable implements NodeObject {
     private Set<User> followers;
     private Set<User> followingUsers;
     private List<Message> feedList;
+    private int messageCount;
     private long creationTime;
     private long lastUpdateTime;
 
@@ -64,9 +65,28 @@ public class User extends Observable implements NodeObject {
     @Override
     public void addMessage(Message message) {
         this.feedList.add(message);
+        messageCount++;
         lastUpdateTime = System.currentTimeMillis();
+        updateAllLists(message);
         setChanged();
         notifyObservers(this);
+    }
+    
+    public int getMessageCount() {
+        return messageCount;
+    }
+    
+    private void updateList(Message message) {
+        this.feedList.add(message);
+        this.lastUpdateTime = System.currentTimeMillis();
+    }
+    
+    private void updateAllLists(Message message) {
+        for (User user : followers) {
+            user.updateList(message);
+            user.setChanged();
+            user.notifyObservers(user);
+        }
     }
     
     @Override

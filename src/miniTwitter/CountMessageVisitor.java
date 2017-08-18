@@ -8,7 +8,8 @@ public class CountMessageVisitor implements Visitor {
 
     @Override
     public void visitUser(User user) {
-        count += user.getMessages().size();
+        //count += user.getMessages().size();
+        count += user.getMessageCount();
     }
 
     @Override
